@@ -13,7 +13,7 @@ If we standardize a field that stores a link "bba://[content_hash]", we can defi
 
 Technically, if we have the hash of the asset and a way to query adn retrieve it, we only need one node to have the actual content of the asset. All other copies would be replication, in case a node goes down or doesn't want to respond to a specific query.
 
-The goal is then to ensure an incentive for nodes to keep the asset files, to avoid data loss.
+The goal is then to ensure an incentive for nodes to keep the asset files, to avoid data loss. It could be an economic incentive or just the fact that a user that owns a specific asset has incentives to keep the content locally - in order to use it in a game or share it with other users.
 
 
 
