@@ -5,7 +5,8 @@ As this proposal aims to be as generic as possible, a developer that wants to im
 He may want to store them:
 * On his centralized server,
 * On a distributed storage solution, like [IPFS](https://ipfs.io) or [Swarm](https://swarm-guide.readthedocs.io/en/latest/introduction.html),
-* Or on the local machines of the users of his application, with Peer to Peer sharing.
+* On the local machines of the users of his application, with Peer to Peer sharing.
+* On chain storage, which could be too expensive for some use cases but useful for others.
 
 We can uniquely reference the asset with his hash. Based on previous work, we can reference the hash of an asset on the blockchain (for example, inside a smart contract). We can also use the Token_URI function of the [ERC-721 Non-Fongible Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md).
 
