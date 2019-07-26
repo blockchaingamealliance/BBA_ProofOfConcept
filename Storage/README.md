@@ -11,11 +11,7 @@ We can uniquely reference the asset with his hash. Based on previous work, we ca
 
 If we standardize a field that stores a link "bba://[content_hash]", we can define a workflow in the application BBAs to query the content of the assets in several places.
 
-
-
-
-
-
+Technically, if we have the hash of the asset and a way to query adn retrieve it, we only need one node to have the actual content of the asset. All other copies would be replication, in case a node goes down or doesn't want to respond to a specific query.
 
 
 
