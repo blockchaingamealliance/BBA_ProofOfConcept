@@ -8,10 +8,11 @@ This Unity project aims to help users visualize [Blockchain Bean Assets](https:/
 	* Metadata: Asset name, description, properties
 	* Images
 	* 3D Model (.obj file, and a reference to a material of the Unity project)
+* Hash and sign the asset
 
 ## Future features
 * Include the model's material in the .bba file.
-* Hash and sign the asset
+* Write metadata as a JSON file.
 
 ## BBA Creation
 You can extract the sample BBA's (Assets/Models/BBAs) with any zip extractor. This lets you understand their structure.
