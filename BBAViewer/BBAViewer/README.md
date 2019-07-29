@@ -17,4 +17,4 @@ This Unity project aims to help users visualize [Blockchain Bean Assets](https:/
 * Load the priv-key from a wallet (e.g. Metamask). Currently it is an hardcoded private address, only used for signing.
 
 ## BBA Creation
-You can extract the sample BBA's (Assets/Models/BBAs) with any zip extractor. This lets you understand their structure.
+You can extract the sample BBA's (../Sample BBAs/) with any zip extractor. This lets you understand their structure.
