@@ -1,0 +1,11 @@
+{
+  "name": "bba-libs",
+  "version": "0.0.1",
+  "description": "Integrate Blockchain Bean Assets in your project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Blockchain Game Alliance",
+  "license": "MIT"
+}
