@@ -25,10 +25,22 @@ const QueryTypes = Object.freeze({"Cache":1, "Centralized":2, "IPFS":3, "Swarm":
 
 var Config = {QueryOrders : [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers]};
 
+
 function CheckValid(_bba)
 {
 	return true; //  For now
 }
+
+function SetQueryPriorities(_options)
+{
+	
+}
+
+function AddRegistry(_registry)
+{
+	
+}
+
 
 async function QueryAsset(_config)
 {
@@ -41,14 +53,49 @@ async function QueryAsset(_config)
 		var BBA = await QueryAssetFromSource(_config, _source);
 		if (BBA != null && CheckValid(BBA))
 		{
-			
+			return BBA;
 		}
 	}
 	
+	return null;	
+}
+
+async function QueryAssetFromSource(_config, _source, _arg)
+{
+	var BBA;
+	if (_source == QueryTypes.Cache)
+	{
+		BBA = await QueryAssetFromCache(_arg);
+	}
+	else if (_source == QueryTypes.Centralized)
+	{
+		if (isURI(_arg))
+		{
+			BBA = await QueryAssetFromCentralizedServerWithURI(_arg);
+		}
+		else
+		{
+			BBA = await QueryAssetFromCentralizedServerWithHash(_arg);
+		}
+	}
+    else if (_source == QueryTypes.IPFS)
+	{
+		BBA = await QueryAssetFromIPFS(_arg)
+	}
+	else if (_source == QueryTypes.Swarm)
+	{
+		BBA = await QueryAssetFromSwarm(_arg);
+	}
+    else if (_source == QueryTypes.OtherUsers)
+	{
+		BBA = await QueryAssetFromOtherUsers(_arg);
+	}
+	else if (_source == QueryTypes.Registry)
+	{
+		BBA = QueryAssetFromRegistry(_registry, _arg);
+	}
 	
-	
-	
-	
+	return BBA;
 }
 
 async function QueryAssetFromCache(_hash)
@@ -73,7 +120,7 @@ async function QueryAssetFromIPFS(_hash)
 	
 }
 
-async function QueryAssetFromSWARM(_hash)
+async function QueryAssetFromSwarm(_hash)
 {
 	
 }
@@ -88,48 +135,15 @@ async function QueryAssetFromRegistry(_registry, _hash)
 	
 }
 
-async function SetQueryPriorities(_options)
+async function GetRegistryListFromMasterRegistry()
 {
 	
 }
 
-async function Registry[] GetRegistryListFromMasterRegistry()
-{
-	
-}
+var BBA1 = QueryAsset();
+var BBA2 = QueryAsset();
+var BBA3 = QueryAsset();
 
-async function AddRegistry(_registry)
-{
-	
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log("BBA1 : ", BBA1);
+console.log("BBA2 : ", BBA2);
+console.log("BBA3 : ", BBA3);
