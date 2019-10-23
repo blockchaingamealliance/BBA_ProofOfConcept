@@ -51,7 +51,7 @@ function makeBBA(name, creator) {
   return constructor;
 }*/
 
-const QueryTypes = Object.freeze({"Cache":0, "Centralized":1, "IPFS":2, "Swarm":3, "OtherUsers":4});
+const QueryTypes = Object.freeze({"Cache":0, "Centralized":1, "IPFS":2, "Swarm":3, "OtherUsers":4, "Registry":5});
 
 function CheckValid(_bba)
 {
@@ -108,38 +108,34 @@ async function QueryAsset(_config, _arg)
 async function QueryAssetFromSource(_config, _source, _arg)
 {
 	var BBA;
-	if (_source == QueryTypes.Cache)
-	{
-		BBA = await QueryAssetFromCache(_arg);
-	}
-	else if (_source == QueryTypes.Centralized)
-	{
-		if (isURI(_arg))
-		{
-			BBA = await QueryAssetFromCentralizedServerWithURI(_arg);
+	switch (_source) {
+		case QueryTypes.Cache:
+			BBA = await QueryAssetFromCache(_arg);
+			break;
+		case QueryTypes.Centralized:
+			if (isURI(_arg))
+			{
+				BBA = await QueryAssetFromCentralizedServerWithURI(_arg);
+			}
+			else
+			{
+				BBA = await QueryAssetFromCentralizedServerWithHash(_arg);
+			}
+			break;
+		case QueryTypes.IPFS:
+			BBA = await QueryAssetFromIPFS(_arg)
+			break;
+		case QueryTypes.Swarm:
+			BBA = await QueryAssetFromSwarm(_arg);
+			break;
+		case QueryTypes.OtherUsers:
+			BBA = await QueryAssetFromOtherUsers(_arg);
+			break;
+		case QueryTypes.Registry:
+			BBA = QueryAssetFromRegistry(_registry, _arg);
+			break;
 		}
-		else
-		{
-			BBA = await QueryAssetFromCentralizedServerWithHash(_arg);
-		}
 	}
-    else if (_source == QueryTypes.IPFS)
-	{
-		BBA = await QueryAssetFromIPFS(_arg)
-	}
-	else if (_source == QueryTypes.Swarm)
-	{
-		BBA = await QueryAssetFromSwarm(_arg);
-	}
-    else if (_source == QueryTypes.OtherUsers)
-	{
-		BBA = await QueryAssetFromOtherUsers(_arg);
-	}
-	else if (_source == QueryTypes.Registry)
-	{
-		BBA = QueryAssetFromRegistry(_registry, _arg);
-	}
-	
 	return BBA;
 }
 
@@ -196,7 +192,7 @@ async function start()
 	
 	// First, create a new Configuration and set everything
 	var Config = {QueryOrders : [], MasterRegistry : ""};
-	const QueryOrders = [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers];
+	const QueryOrders = [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers, QueryTypes.Registry];
 	Config = SetQueryPriorities(Config, QueryOrders);
 	const MasterRegistry = "";
 	Config = SetMasterRegistry(Config, MasterRegistry);

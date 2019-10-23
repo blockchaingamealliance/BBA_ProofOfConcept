@@ -9,6 +9,10 @@
   "author": "Blockchain Game Alliance",
   "license": "MIT",
   "dependencies": {
-    "ipfs": "^0.38.1"
+    "ipfs": "^0.38.1",
+    "ws": "^3.3.3"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.15"
   }
 }
