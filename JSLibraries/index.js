@@ -10,6 +10,35 @@
 // _hash is a string
 // _uri is a string
 
+const IPFS = require('ipfs');
+var IPFS_Started = false;
+var IPFS_node;
+
+async function startIPFS()
+{
+	if (!IPFS_node)
+	{
+		IPFS_node = await IPFS.create();
+	}
+	IPFS_Started = true;
+	return IPFS_node;
+}
+
+async function stopIPFS()
+{
+	try
+	{
+		await IPFS_node.stop();
+		IPFS_Started = false;
+		console.log('IPFS node stopped!');
+	} 
+	catch (error)
+	{
+		console.error('IPFS node failed to stop! ', error)
+	}
+}
+
+	
 /*
 function makeBBA(name, creator) {
   var names = names.split(' ');
@@ -133,7 +162,12 @@ async function QueryAssetFromCentralizedServerWithHash(_hash)
 
 async function QueryAssetFromIPFS(_hash)
 {
-	return null;
+	const ipfsPath = '/ipfs/' + _hash;
+	
+	const ipfs = IPFS_Node;
+	const stream = await ipfs.get(ipfsPath)
+	
+	return stream;
 }
 
 async function QueryAssetFromSwarm(_hash)
@@ -158,6 +192,8 @@ async function GetRegistryListFromMasterRegistry()
 
 async function start()
 {
+	IPFS_Node = await startIPFS();
+	
 	// First, create a new Configuration and set everything
 	var Config = {QueryOrders : [], MasterRegistry : ""};
 	const QueryOrders = [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers];
@@ -166,7 +202,7 @@ async function start()
 	Config = SetMasterRegistry(Config, MasterRegistry);
 
 	// Then, try and query some BBAs
-	var BBA1 = await QueryAsset(Config, "");
+	var BBA1 = await QueryAsset(Config, "Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a");
 	//var BBA2 = QueryAsset(Config, "");
 	//var BBA3 = QueryAsset(Config, "");
 
@@ -174,14 +210,12 @@ async function start()
 	console.log("BBA1 : ", BBA1);
 	//console.log("BBA2 : ", BBA2);
 	//console.log("BBA3 : ", BBA3);
+	
+	await stopIPFS();
+	
+	return;
 }
 
 start();
-
-
-
-
-
-
 
 
