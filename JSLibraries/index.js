@@ -10,6 +10,7 @@
 // _hash is a string
 // _uri is a string
 
+/*
 function makeBBA(name, creator) {
   var names = names.split(' ');
   var count = names.length;
@@ -19,38 +20,53 @@ function makeBBA(name, creator) {
     }
   }
   return constructor;
-}
+}*/
 
-const QueryTypes = Object.freeze({"Cache":1, "Centralized":2, "IPFS":3, "Swarm":4, "OtherUsers":5});
-
-var Config = {QueryOrders : [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers]};
-
+const QueryTypes = Object.freeze({"Cache":0, "Centralized":1, "IPFS":2, "Swarm":3, "OtherUsers":4});
 
 function CheckValid(_bba)
 {
 	return true; //  For now
 }
 
-function SetQueryPriorities(_options)
+// Should be a prototype instead
+function SetQueryPriorities(_config, _query_orders)
 {
+	_config.QueryOrders = _query_orders;
 	
+	return _config;
 }
 
-function AddRegistry(_registry)
+// Should be a prototype instead
+function SetMasterRegistry(_config, _master_registry)
 {
+	_config.MasterRegistry = _master_registry;
 	
+	return _config;
+}
+
+function AddRegistry(_config, _registry)
+{
+	//_config.MasterRegistry;
+	
+	return;
+}
+
+function isURI(_arg)
+{
+	return false; // for now
 }
 
 
-async function QueryAsset(_config)
+async function QueryAsset(_config, _arg)
 {
 	// Retrieve query orders from config.
-	
-	QueryOrders = _config.QueryOrders;
+	var _source;
 	
 	for (var i = 0; i < Object.keys(QueryTypes).length; i++)
 	{
-		var BBA = await QueryAssetFromSource(_config, _source);
+		_source = _config.QueryOrders[i];
+		var BBA = await QueryAssetFromSource(_config, _source, _arg);
 		if (BBA != null && CheckValid(BBA))
 		{
 			return BBA;
@@ -102,48 +118,70 @@ async function QueryAssetFromCache(_hash)
 {
 	
 	
-	return BBA;
+	return null;
 }
 
 async function QueryAssetFromCentralizedServerWithURI(_uri)
 {
-	
+	return null;
 }
 
 async function QueryAssetFromCentralizedServerWithHash(_hash)
 {
-	
+	return null;
 }
 
 async function QueryAssetFromIPFS(_hash)
 {
-	
+	return null;
 }
 
 async function QueryAssetFromSwarm(_hash)
 {
-	
+	return null;
 }
 
 async function QueryAssetFromOtherUsers(_hash)
 {
-	
+	return null;
 }
 
 async function QueryAssetFromRegistry(_registry, _hash)
 {
-	
+	return null;
 }
 
 async function GetRegistryListFromMasterRegistry()
 {
-	
+	return null;
 }
 
-var BBA1 = QueryAsset();
-var BBA2 = QueryAsset();
-var BBA3 = QueryAsset();
+async function start()
+{
+	// First, create a new Configuration and set everything
+	var Config = {QueryOrders : [], MasterRegistry : ""};
+	const QueryOrders = [QueryTypes.Cache, QueryTypes.Centralized, QueryTypes.IPFS, QueryTypes.Swarm, QueryTypes.OtherUsers];
+	Config = SetQueryPriorities(Config, QueryOrders);
+	const MasterRegistry = "";
+	Config = SetMasterRegistry(Config, MasterRegistry);
 
-console.log("BBA1 : ", BBA1);
-console.log("BBA2 : ", BBA2);
-console.log("BBA3 : ", BBA3);
+	// Then, try and query some BBAs
+	var BBA1 = await QueryAsset(Config, "");
+	//var BBA2 = QueryAsset(Config, "");
+	//var BBA3 = QueryAsset(Config, "");
+
+	// Display the results
+	console.log("BBA1 : ", BBA1);
+	//console.log("BBA2 : ", BBA2);
+	//console.log("BBA3 : ", BBA3);
+}
+
+start();
+
+
+
+
+
+
+
+
